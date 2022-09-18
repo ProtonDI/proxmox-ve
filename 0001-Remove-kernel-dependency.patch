@@ -1,0 +1,49 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: ZHANG Yuntian <yuntian@protoducer.com>
+Date: Sun, 4 Sep 2022 16:24:39 +0800
+Subject: [PATCH] Remove kernel dependency
+
+---
+ debian/control  |  1 -
+ debian/postinst | 17 -----------------
+ 2 files changed, 18 deletions(-)
+ delete mode 100755 debian/postinst
+
+diff --git a/debian/control b/debian/control
+index 8a42cae..1e0ec8a 100644
+--- a/debian/control
++++ b/debian/control
+@@ -15,7 +15,6 @@ Depends: apt,
+          openssh-client,
+          openssh-server,
+          proxmox-archive-keyring,
+-         pve-kernel-5.15,
+          pve-kernel-helper,
+          pve-manager,
+          pve-qemu-kvm,
+diff --git a/debian/postinst b/debian/postinst
+deleted file mode 100755
+index 068b6f5..0000000
+--- a/debian/postinst
++++ /dev/null
+@@ -1,17 +0,0 @@
+-#! /bin/sh
+-
+-# Abort if any command returns an error value
+-set -e
+-
+-case "$1" in
+-  configure)
+-    # setup kernel links for installation CD (rescue boot)
+-    mkdir -p /boot/pve || true
+-    ln -sf /boot/pve/vmlinuz-5.15 /boot/pve/vmlinuz || true
+-    ln -sf /boot/pve/initrd.img-5.15 /boot/pve/initrd.img || true
+-    ;;
+-esac
+-
+-#DEBHELPER#
+-
+-exit 0
+-- 
+2.37.2
+
